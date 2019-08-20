@@ -9,7 +9,8 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='expertsender-python',
-    version='0.1.3',
+    packages=['expertsender'],
+    version='0.1.4',
     license='MIT',
     description='An unofficial API wrapper for Expertsender',
     long_description=long_description,
@@ -17,7 +18,7 @@ setup(
     author='Karsten Eckhardt',
     author_email='karsten.eckhardt@gmail.com',
     url='https://github.com/r4h4/Expertsender-Python',
-    download_url='https://github.com/r4h4/Expertsender-Python/archive/v0.1.3.tar.gz',
+    download_url='https://github.com/r4h4/Expertsender-Python/archive/v0.1.4.tar.gz',
     keywords=['expertsender', 'email', 'marketing', 'api'],
     install_requires=[
           'requests',
