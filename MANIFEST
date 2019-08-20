@@ -2,9 +2,9 @@
 setup.cfg
 setup.py
 expertsender\__init__.py
+expertsender\client.py
 expertsender\email_messages.py
 expertsender\errors.py
-expertsender\expertsender.py
 expertsender\subscribers.py
 expertsender\suppression_lists.py
 expertsender\utils.py
