@@ -22,7 +22,6 @@ class EmailMessagesMixin:
         :param tags: List of tags used to mark the transactional for convenience reasons. Optional.
         :return: Expertsender ID of the created mailing
         """
-        headers = {'Content-Type': 'text/xml;charset=UTF-8'}
         data_dict = {
             'Content': dict(FromName=from_name,
                             FromEmail=from_email,
@@ -44,10 +43,36 @@ class EmailMessagesMixin:
             })
 
         r_dict = self._es_post_request(f'{self.api_url}TransactionalsCreate', data_dict)
-
         transactional_id = r_dict['ApiResponse']['Data']
-
         return transactional_id
+
+    def send_transactional(self, trans_id, receiver: list, local_call=False):
+        """
+        Starts sending a transactional message to a list of receivers
+        For that, all receivers need to exist in at least one list in that unit, to ensure that, all recipients are
+            added to a seed list called 'api_receiver'.
+        API doc: https://sites.google.com/site/expertsenderapiv2/methods/messages/send-transactional-messages
+        :param trans_id: int or str - Expertsender internal transactional message id
+        :param receiver: List of email addresses
+        :param local_call: Optional, if invoked by unittest
+        """
+
+        # Check if a seed-list with the name 'api_receiver' exists
+        lists = self.lists(seed_lists=True)
+        if not any([True for l_id, name in lists if name == 'api_receiver']):
+            list_id = self.create_list('api_receiver', is_seed_list=True)
+        else:
+            list_id = [l_id for l_id, name in lists if name == 'api_receiver'][0]
+
+        # Add all subscriber to the seed-list 'api_receiver'
+        for email in receiver:
+            self.add_subscriber(list_id, email)
+
+        data_dict = {
+            'ReturnGuid': 'true',
+            'Receiver': [{'Email': email} for email in receiver]
+        }
+        _ = self._es_post_request.post(f'{self.api_url}Transactionals/{trans_id}', data=data_dict)
 
     def create_send_newsletter(self, from_email: str, from_name: str, subject: str, reply_name: str = None,
                                html: str = None, plain: str = None, header: str = None, footer: str = None,

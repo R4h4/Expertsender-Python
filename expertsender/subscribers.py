@@ -43,15 +43,14 @@ class SubscriberMixin:
                 s['Segment']['Id']: {'Name': s['Segment']['Name'], 'Tags': [tag['Tag'] for tag in s['Segment']['Tags']]}
                 for s in r_dict['ApiResponse']['Data']['Segments']}
 
-    def create_seed_list(self):
+    def create_list(self, list_name, is_seed_list=False):
         """
         Creates a seed list with the name 'api_subscribers', which is used for sending test emails
         :return: The list id of the created seed-list
         """
-        headers = {'Content-Type': 'application/xml'}
         data = {
-            'GeneralSettings': dict(Name='api_receiver',
-                                    IsSeedList='true')
+            'GeneralSettings': dict(Name=list_name,
+                                    IsSeedList=is_seed_list)
         }
         r_dict = self._es_post_request(f'{self.api_url}Lists', data)
         # Return the id of the newly created list
@@ -63,7 +62,6 @@ class SubscriberMixin:
         :param list_id:
         :param email:
         """
-        headers = {'Content-Type': 'text/xml;charset=UTF-8'}
         data = {
             'ListId': list_id,
             'Email': email
