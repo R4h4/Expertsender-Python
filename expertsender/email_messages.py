@@ -61,7 +61,7 @@ class EmailMessagesMixin:
         if not any([True for l_id, name in lists.items() if name == 'api_receiver']):
             list_id = self.create_list('api_receiver', is_seed_list=True)
         else:
-            list_id = [l_id for l_id, name in lists if name == 'api_receiver'][0]
+            list_id = [l_id for l_id, name in lists.items() if name == 'api_receiver'][0]
 
         # Add all subscriber to the seed-list 'api_receiver'
         for email in receiver:
