@@ -30,17 +30,16 @@ class EmailMessagesMixin:
                             Html=html,
                             Plain=plain,
                             Header=header,
-                            Footer=footer,
-                            Tags=[{'Tag': tag} for tag in tags])
+                            Footer=footer)
         }
+        if tags:
+            data_dict['Content']['Tags'] = [{'Tag': tag} for tag in tags]
 
         # If the Mailing is
         if channels:
-            data_dict.update({
-                'Channels': [
-                    {'Channel': dict(Ip=k, Percentage=v)} for k, v in channels.items()
-                ]
-            })
+            data_dict['Content']['Channels'] = [
+                {'Channel': dict(Ip=k, Percentage=v)} for k, v in channels.items()
+            ]
 
         r_dict = self._es_post_request(f'{self.api_url}TransactionalsCreate', data_dict)
         transactional_id = r_dict['ApiResponse']['Data']
@@ -59,7 +58,7 @@ class EmailMessagesMixin:
 
         # Check if a seed-list with the name 'api_receiver' exists
         lists = self.lists(seed_lists=True)
-        if not any([True for l_id, name in lists if name == 'api_receiver']):
+        if not any([True for l_id, name in lists.items() if name == 'api_receiver']):
             list_id = self.create_list('api_receiver', is_seed_list=True)
         else:
             list_id = [l_id for l_id, name in lists if name == 'api_receiver'][0]
