@@ -66,4 +66,4 @@ class SubscriberMixin:
             'ListId': list_id,
             'Email': email
         }
-        _ = self._es_post_request(f'{self.api_url}Subscribers', data)
+        _ = self._es_post_request(f'{self.api_url}Subscribers', data, expect_return=False)

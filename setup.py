@@ -10,7 +10,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='expertsender-python',
     packages=['expertsender'],
-    version='0.1.8',
+    version='0.1.9',
     license='MIT',
     description='An unofficial API wrapper for Expertsender',
     long_description=long_description,

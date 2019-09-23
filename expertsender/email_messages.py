@@ -65,7 +65,7 @@ class EmailMessagesMixin:
 
         # Add all subscriber to the seed-list 'api_receiver'
         for email in receiver:
-            self.add_subscriber(list_id, email)
+            self.add_subscriber(list_id, email, expect_return=False)
 
         data_dict = {
             'ReturnGuid': 'true',
@@ -106,7 +106,6 @@ class EmailMessagesMixin:
         :return: Expertsender ID of the created mailing
         """
         assert throttling in {'None', 'Auto', 'TimeOptimized', 'TimeTravel'}, "Throttling method not valid."
-        headers = {'Content-Type': 'text/xml;charset=UTF-8'}
 
         data_dict = {
             'Recipients': dict(SubscriberLists=[{'SubscriberList': l} for l in lists or {}],

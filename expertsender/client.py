@@ -62,14 +62,22 @@ class ExpertsenderClient(SuppressionListsMixin, EmailMessagesMixin, SubscriberMi
 
         return r_dict
 
-    def _es_post_request(self, url: str, data: dict = None) -> dict:
+    def _es_post_request(self, url: str, data: dict = None, expect_return: bool = True) -> dict:
         # Takes in an url, checks the return for errors and returns the results as dict
         data = generate_request_xml(self.api_key, '', data)
         r = requests.post(url, data=data)
-        r_dict = xml2dict(r.text)
-        self._check_response(r_dict)
+        if expect_return:
+            r_dict = xml2dict(r.text)
+            self._check_response(r_dict)
 
-        return r_dict
+            return r_dict
+        else:
+            return_code = r.status_code
+            first_digit = return_code / 100
+            if first_digit != 2:
+                raise ExpertsenderError
+            else:
+                return {}
 
     @staticmethod
     def _check_response(r_dict: dict):
