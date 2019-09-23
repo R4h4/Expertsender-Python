@@ -73,9 +73,9 @@ class ExpertsenderClient(SuppressionListsMixin, EmailMessagesMixin, SubscriberMi
             return r_dict
         else:
             return_code = r.status_code
-            first_digit = return_code / 100
+            first_digit = int(return_code / 100)
             if first_digit != 2:
-                raise ExpertsenderError
+                raise ExpertsenderError(r.content)
             else:
                 return {}
 
