@@ -65,7 +65,7 @@ class EmailMessagesMixin:
 
         # Add all subscriber to the seed-list 'api_receiver'
         for email in receiver:
-            self.add_subscriber(list_id, email, expect_return=False)
+            self.add_subscriber(list_id, email)
 
         data_dict = {
             'ReturnGuid': 'true',
