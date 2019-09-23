@@ -71,7 +71,7 @@ class EmailMessagesMixin:
             'ReturnGuid': 'true',
             'Receiver': [{'Email': email} for email in receiver]
         }
-        _ = self._es_post_request.post(f'{self.api_url}Transactionals/{trans_id}', data=data_dict)
+        _ = self._es_post_request(f'{self.api_url}Transactionals/{trans_id}', data=data_dict)
 
     def create_send_newsletter(self, from_email: str, from_name: str, subject: str, reply_name: str = None,
                                html: str = None, plain: str = None, header: str = None, footer: str = None,
