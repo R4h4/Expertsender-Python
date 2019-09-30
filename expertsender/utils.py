@@ -51,6 +51,8 @@ def generate_entity(data, parent):
     elif isinstance(data, list):
         for value in data:
             generate_entity(value, parent)
+    elif isinstance(data, bool):
+        parent.text = str(data).lower()
     else:
         # Html and text templates need to be send as cdata
         if (parent.tag == 'Html') | (parent.tag == 'Plain'):
