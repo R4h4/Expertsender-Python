@@ -67,3 +67,62 @@ class SubscriberMixin:
             'Email': email
         }
         _ = self._es_post_request(f'{self.api_url}Subscribers', data, expect_return=False)
+
+    def start_export(self, e_type: str = 'list', list_id: str = '',  segment_id: str = '', fields: list = 'all',
+                     properties: list = 'all') -> int:
+        """
+        Start the export of a list or a segment from Expertsender.
+        API doc: https://sites.google.com/site/expertsenderapiv2/methods/start-a-new-export
+        :param e_type: Export type. Can either be 'list' or 'segment'
+        :param list_id: Only required if export type is 'list'
+        :param segment_id: Only required if export type is 'segment'
+        :param fields: Either 'all' or a list of Expertsender fields (e.g. Email, Firstname, Vendor etc) to be exported.
+        :param properties: Collection of Property elements. List of custom subscriber properties to be exported.
+            Properties are identified by ID.
+        :return: ID of scheduled export.
+        """
+        assert e_type in ['list', 'segment'], "The export type has to be either 'list' or 'segment' "
+        assert type(fields) == list or fields == 'all'
+        assert type(properties) == list or properties == 'all'
+
+        system_fields = [
+            'Id', 'FirstName', 'LastName', 'Email', 'EmailMd5', 'EmailSha256',
+            'CustomSubscriberId', 'IP', 'Vendor', 'TrackingCode', 'GeoCountry',
+            'GeoState', 'GeoCity', 'GeoZipCode', 'LastActivity', 'LastMessage',
+            'LastEmail', 'LastOpenEmail', 'LastClickEmail', 'SubscriptionDate'
+        ]
+        fields = [
+            {'Field': f} for f in fields or {}
+        ] if type(fields) == list else [
+            {'Field': f} for f in system_fields
+        ]
+
+        properties = [
+            {'Property': f} for f in fields or {}
+        ] if type(properties) == list else [
+            {'Property': p_id} for p_name, p_id in self.custom_fields().items()
+        ]
+
+        data = {
+            'Type': e_type.capitalize(),
+            'ListId': list_id,
+            'SegmentId': segment_id,
+            'Fields': fields,
+            'Properties': properties
+        }
+
+        r_dict = self._es_post_request(f'{self.api_url}Exports', data)
+        return r_dict['ApiResponse']['Data']
+
+    def get_export_progress(self, process_id) -> dict:
+        """
+        Method returns an object describing the scheduled export status. If export has completed, URL with file
+        to download is also returned.
+        :param process_id: Id of the process
+        :return: A dict containing key 'Status' with the possible values 'Queued', 'InProgress', 'Completed', 'Error'/
+            If status is complete, also has key 'DownloadUrl'
+        """
+        url = f'{self.api_url}Exports/{process_id}'
+
+        r_dict = self._es_get_request(url)
+        return r_dict['ApiResponse']['Data']
