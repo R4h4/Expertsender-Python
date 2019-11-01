@@ -124,7 +124,7 @@ class SubscriberMixin:
         :return: A dict containing key 'Status' with the possible values 'Queued', 'InProgress', 'Completed', 'Error'/
             If status is complete, also has key 'DownloadUrl'
         """
-        url = f'{self.api_url}Exports/{process_id}'
+        url = f'{self.api_url}Exports/{process_id}?apiKey={self.api_key}'
 
         r_dict = self._es_get_request(url)
         return r_dict['ApiResponse']['Data']
