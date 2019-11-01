@@ -105,11 +105,13 @@ class SubscriberMixin:
 
         data = {
             'Type': e_type.capitalize(),
-            'ListId': list_id,
-            'SegmentId': segment_id,
             'Fields': fields,
             'Properties': properties
         }
+        if e_type == 'list':
+            data.update({'ListId': str(list_id)})
+        else:
+            data.update({'SegmentId': str(segment_id)})
 
         r_dict = self._es_post_request(f'{self.api_url}Exports', data)
         return r_dict['ApiResponse']['Data']
