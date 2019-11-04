@@ -116,4 +116,4 @@ class ExportMixin(ABC):
         content = file.read()
 
         # Return data as a pandas DataFrame
-        pd.read_csv(io.BytesIO(content))
+        return pd.read_csv(io.BytesIO(content))
