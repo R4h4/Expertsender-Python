@@ -5,6 +5,8 @@ expertsender\__init__.py
 expertsender\client.py
 expertsender\email_messages.py
 expertsender\errors.py
+expertsender\export.py
+expertsender\import.py
 expertsender\subscribers.py
 expertsender\suppression_lists.py
 expertsender\utils.py

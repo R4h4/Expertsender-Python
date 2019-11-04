@@ -12,6 +12,9 @@ from .errors import ExpertsenderExportError
 
 
 class ExportMixin(ABC):
+    """
+    Implements all functions regarding the export of subscribers.
+    """
     def start_export(self, e_type: str = 'list', list_id: str = '',  segment_id: str = '', fields: list = 'all',
                      properties: list = 'all') -> int:
         """

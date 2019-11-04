@@ -11,3 +11,8 @@ class ExpertsenderError(Error):
 class ExpertsenderExportError(Error):
     """Error regarding the export of users"""
     pass
+
+
+class ExpertsenderImportError(Error):
+    """Error regarding the export of users"""
+    pass
