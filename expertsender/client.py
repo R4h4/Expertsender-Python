@@ -6,9 +6,10 @@ from .errors import ExpertsenderError
 from .suppression_lists import SuppressionListsMixin
 from .email_messages import EmailMessagesMixin
 from .subscribers import SubscriberMixin
+from .export import ExportMixin
 
 
-class ExpertsenderClient(SuppressionListsMixin, EmailMessagesMixin, SubscriberMixin):
+class ExpertsenderClient(SuppressionListsMixin, EmailMessagesMixin, SubscriberMixin, ExportMixin):
     def __init__(self, user: str, token: str, api_version: str = 'v2'):
         """
         Initialise the Expertsender client class

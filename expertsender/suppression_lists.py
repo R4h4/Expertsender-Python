@@ -1,7 +1,9 @@
+from abc import ABC
+
 from .utils import generate_request_xml
 
 
-class SuppressionListsMixin:
+class SuppressionListsMixin(ABC):
     def create_suppression_list(self, name: str, list_type: str = 'Email', import_rule: str = 'Email'):
         """
         Create a Suppression list in that unit

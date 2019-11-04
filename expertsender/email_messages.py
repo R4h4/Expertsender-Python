@@ -1,7 +1,8 @@
+from abc import ABC
 from datetime import datetime
 
 
-class EmailMessagesMixin:
+class EmailMessagesMixin(ABC):
     def create_transactional(self, from_email: str, from_name: str, subject: str, reply_name: str = None,
                              html: str = None, plain: str = None, header: str = None, footer: str = None,
                              tags: list = None, channels: dict = None):

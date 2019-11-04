@@ -25,6 +25,9 @@ setup(
         'requests_toolbelt',
         'lxml'
     ],
+    extra_require={
+        'Pandas': ['pandas>=0.12.0']
+    },
     classifiers=[
         'Development Status :: 4 - Beta',  # "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
         'Intended Audience :: Developers',
