@@ -167,7 +167,7 @@ class EmailMessagesMixin(ABC):
         return test_id
 
     def get_message_content_check_status(self, test_id: str) -> dict:
-        url = f'{self.api_url}CheckMessageContent?apiKey={self.api_key}?id={test_id}'
+        url = f'{self.api_url}CheckMessageContent?apiKey={self.api_key}&id={test_id}'
         r_dict = self._es_get_request(url)
 
         return r_dict['ApiResponse']
