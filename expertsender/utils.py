@@ -55,7 +55,7 @@ def generate_entity(data, parent):
         parent.text = str(data).lower()
     else:
         # Html and text templates need to be send as cdata
-        if (parent.tag == 'Html') | (parent.tag == 'Plain'):
+        if (parent.tag == 'Html') | (parent.tag == 'Plain') | (parent.tag == 'AmpHtml'):
             parent.text = ET.CDATA(data)
         else:
             parent.text = data

@@ -132,3 +132,42 @@ class EmailMessagesMixin(ABC):
         transactional_id = r_dict['ApiResponse']['Data']
 
         return transactional_id
+
+    def create_message_content_check_task(self, html: str = None, plain: str = None, amp_html: str = None,
+                                          preheader: str = None, header: int = None, footer: int = None) -> str:
+        """
+        Starts a blacklist check for every URL in a given template.
+        :param html: HTML content of newsletter, Optional
+        :param plain:Plain text content of newslette, Optional
+        :param amp_html: AMP HTML content of newsletter, Optional
+        :param preheader: Newsletter preheader, Optional
+        :param header: Int id of the header to be used
+        :param footer: Int id of the footer to be used
+        :return: Expertsender ID of the content check task
+        """
+        assert any([html, plain, amp_html]), "At least one content parameter need to be given"
+
+        data_dict = dict()
+        if html:
+            data_dict['Html'] = html
+        if plain:
+            data_dict['Plain'] = plain
+        if amp_html:
+            data_dict['AmpHtml'] = amp_html
+        if preheader:
+            data_dict['Preheader'] = preheader
+        if header:
+            data_dict['Header'] = header
+        if footer:
+            data_dict['Footer'] = footer
+
+        r_dict = self._es_post_request(f'{self.api_url}CheckMessageContent', data_dict)
+        test_id = transactional_id = r_dict['ApiResponse']['Id']
+
+        return test_id
+
+    def get_message_content_check_status(self, test_id: str) -> dict:
+        url = f'{self.api_url}CheckMessageContent?apiKey={self.api_key}?id={test_id}'
+        r_dict = self._es_get_request(url)
+
+        return r_dict['ApiResponse']
