@@ -83,8 +83,11 @@ class ExpertsenderClient(SuppressionListsMixin, EmailMessagesMixin, SubscriberMi
     @staticmethod
     def _check_response(r_dict: dict):
         assert isinstance(r_dict, dict), "Input has to be a dict"
-        if 'ErrorMessage' in r_dict['ApiResponse']:
-            error_message = r_dict['ApiResponse']['ErrorMessage']
+        response = r_dict.get('ApiResponse')
+        if not response:
+            raise ExpertsenderError(f"Empty response: {r_dict}")
+        if 'ErrorMessage' in response:
+            error_message = response['ErrorMessage']
             raise ExpertsenderError(
                 f"The request with error code {error_message['Code']}. "
                 f"Error Message: {error_message['Message']}")
