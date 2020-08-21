@@ -1,24 +1,16 @@
 from distutils.core import setup
-from os import path
-
-here = path.abspath(path.dirname(__file__))
-
-# Get the long description from the README file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
 
 setup(
     name='expertsender-python',
     packages=['expertsender'],
-    version='0.2.4',
+    version='0.2.5',
     license='MIT',
     description='An unofficial API wrapper for Expertsender',
-    long_description=long_description,
     long_description_content_type='text/markdown',
     author='Karsten Eckhardt',
     author_email='karsten.eckhardt@gmail.com',
     url='https://github.com/r4h4/Expertsender-Python',
-    download_url='https://github.com/r4h4/Expertsender-Python/archive/v0.2.4.tar.gz',
+    download_url='https://github.com/r4h4/Expertsender-Python/archive/v0.2.5.tar.gz',
     keywords=['expertsender', 'email', 'marketing', 'api'],
     install_requires=[
         'requests',
