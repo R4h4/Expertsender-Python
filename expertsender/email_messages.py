@@ -122,11 +122,12 @@ class EmailMessagesMixin(ABC):
                             Header=header,
                             Footer=footer,
                             Tags=[{'Tag': tag} for tag in tags or {}]),
-            'DeliverySettings': dict(Channels=[{'Channel': dict(Ip=k, Percentage=v)}
-                                               for k, v in channels.items() or {}],
-                                     DeliveryDate=delivery_date.strftime('%Y-%m-%dT%H:%M:%S'),
-                                     ThrottlingMethod=throttling),
+            'DeliverySettings': dict(DeliveryDate=delivery_date.strftime('%Y-%m-%dT%H:%M:%S'),
+                                     ThrottlingMethod=throttling)
         }
+        if channels:
+            data_dict['DeliverySettings']['Channels'] = [{'Channel': dict(Ip=k, Percentage=v)} for k, v in
+                                                         channels.items()]
 
         r_dict = self._es_post_request(f'{self.api_url}Newsletters', data_dict)
         transactional_id = r_dict['ApiResponse']['Data']
