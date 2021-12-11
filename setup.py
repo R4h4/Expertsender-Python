@@ -3,14 +3,14 @@ from distutils.core import setup
 setup(
     name='expertsender-python',
     packages=['expertsender'],
-    version='0.2.6',
+    version='0.2.7',
     license='MIT',
     description='An unofficial API wrapper for Expertsender',
     long_description_content_type='text/markdown',
     author='Karsten Eckhardt',
     author_email='karsten.eckhardt@gmail.com',
     url='https://github.com/r4h4/Expertsender-Python',
-    download_url='https://github.com/r4h4/Expertsender-Python/archive/v0.2.6.tar.gz',
+    download_url='https://github.com/r4h4/Expertsender-Python/archive/v0.2.7.tar.gz',
     keywords=['expertsender', 'email', 'marketing', 'api'],
     install_requires=[
         'requests',

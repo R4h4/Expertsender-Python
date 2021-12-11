@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import requests
+import logging
 
 from .utils import xml2dict, generate_request_xml
 from .errors import ExpertsenderError
@@ -7,6 +8,9 @@ from .suppression_lists import SuppressionListsMixin
 from .email_messages import EmailMessagesMixin
 from .subscribers import SubscriberMixin
 from .export import ExportMixin
+
+
+logger = logging.getLogger(__name__)
 
 
 class ExpertsenderClient(SuppressionListsMixin, EmailMessagesMixin, SubscriberMixin, ExportMixin):
@@ -49,6 +53,7 @@ class ExpertsenderClient(SuppressionListsMixin, EmailMessagesMixin, SubscriberMi
 
     def _es_get_request(self, url: str) -> dict:
         # Takes in an url, checks the return for errors and returns the results as dict
+        logger.debug(f'Requesting GET {url}')
         r = requests.get(url)
         r_dict = xml2dict(r.text)
         self._check_response(r_dict)
@@ -57,6 +62,7 @@ class ExpertsenderClient(SuppressionListsMixin, EmailMessagesMixin, SubscriberMi
 
     def _es_delete_request(self, url: str) -> dict:
         # Takes in an url, checks the return for errors and returns the results as dict
+        logger.debug(f'Requesting DELETE {url}')
         r = requests.get(url)
         r_dict = xml2dict(r.text)
         self._check_response(r_dict)
@@ -66,6 +72,8 @@ class ExpertsenderClient(SuppressionListsMixin, EmailMessagesMixin, SubscriberMi
     def _es_post_request(self, url: str, data: dict = None, expect_return: bool = True) -> dict:
         # Takes in an url, checks the return for errors and returns the results as dict
         data = generate_request_xml(self.api_key, '', data)
+        logger.debug(f'Requesting POST {url}')
+        logger.debug(f'POST data: {data}')
         r = requests.post(url, data=data)
         if expect_return:
             r_dict = xml2dict(r.text)
